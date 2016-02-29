@@ -1,9 +1,7 @@
 #!/usr/bin/env ruby
 
-require "bundler/setup"
-require "octo_merge"
-
 require 'optparse'
+require "octo_merge"
 
 options = {}
 OptionParser.new do |opts|

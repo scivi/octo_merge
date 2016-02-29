@@ -9,8 +9,12 @@ module SetupExampleRepos
       let(:mallory) { SimpleGit.new(name: "mallory") }
 
       let(:working_directory) { mallory.path }
-      let(:alice_cowboy_hat) { OctoMerge::ChangeSet.new("alice", "cowboy_hat") }
-      let(:bob_sunglasses) { OctoMerge::ChangeSet.new("bob", "sunglasses") }
+      let(:alice_cowboy_hat) {
+        instance_double(OctoMerge::PullRequest, remote: "alice", branch: "cowboy_hat")
+      }
+      let(:bob_sunglasses) {
+        instance_double(OctoMerge::PullRequest, remote: "bob", branch: "sunglasses")
+      }
 
       before { setup_example_repos }
 

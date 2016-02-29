@@ -1,0 +1,52 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "octo_merge"
+
+require 'optparse'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: octo-merge [options]"
+
+  opts.on("--repo=REPO", "Repository (e.g.: 'rails/rails')") do |repo|
+    options[:repo] = repo
+  end
+
+  opts.on("--dir=DIR", "Working directory (e.g.: '~/Dev/Rails/rails')") do |dir|
+    options[:working_directory] = File.expand_path(dir)
+  end
+
+  opts.on("--pull_requests=PULL_REQUESTS", "Pull requests (e.g.: '23,42,66')") do |pull_requests|
+    options[:pull_requests] = pull_requests.split(",")
+  end
+
+  opts.on("--login=login", "Login (Your GitHub username)") do |login|
+    options[:login] = login
+  end
+
+  opts.on("--password=password", "Password (Your GitHub API-Token)") do |password|
+    options[:password] = password
+  end
+
+  opts.on("--strategy=STRATEGY", "Merge strategy (e.g.: 'MergeWithoutRebase')") do |strategy|
+    options[:strategy] = Object.const_get("OctoMerge::#{strategy}")
+  end
+
+  opts.on('-h', '--help', 'Display this screen') do
+    puts opts
+    exit
+  end
+end.parse!
+
+OctoMerge.configure do |config|
+  config.login = options[:login]
+  config.password = options[:password]
+end
+
+OctoMerge.run(
+  repo: options[:repo],
+  pull_request_numbers: options[:pull_requests],
+  working_directory: options[:working_directory],
+  strategy: options[:strategy]
+)

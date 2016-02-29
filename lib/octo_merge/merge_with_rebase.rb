@@ -9,12 +9,13 @@ module OctoMerge
       git.fetch(upstream)
       git.reset_hard("#{upstream}/#{master}")
 
-      change_sets.each do |change_set|
-        git.fetch(change_set.remote)
-        git.checkout(change_set.branch)
+      pull_requests.each do |pull_request|
+        git.remote_add("#{pull_request.remote} #{pull_request.remote_url}")
+        git.fetch(pull_request.remote)
+        git.checkout(pull_request.branch)
         git.rebase(master)
         git.checkout(master)
-        git.merge_no_ff(change_set.branch)
+        git.merge_no_ff(pull_request.branch)
       end
     end
   end

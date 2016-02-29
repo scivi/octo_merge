@@ -20,6 +20,7 @@ class Git
   git :fetch
   git :merge_no_ff, "merge --no-ff"
   git :rebase
+  git :remote_add, "remote add"
   git :reset_hard, "reset --hard"
 
 

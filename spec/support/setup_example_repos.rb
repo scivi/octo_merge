@@ -10,10 +10,20 @@ module SetupExampleRepos
 
       let(:working_directory) { mallory.path }
       let(:alice_cowboy_hat) {
-        instance_double(OctoMerge::PullRequest, remote: "alice", branch: "cowboy_hat")
+        instance_double(
+          OctoMerge::PullRequest,
+          remote: "alice",
+          remote_url: "../alice",
+          branch: "cowboy_hat"
+        )
       }
       let(:bob_sunglasses) {
-        instance_double(OctoMerge::PullRequest, remote: "bob", branch: "sunglasses")
+        instance_double(
+          OctoMerge::PullRequest,
+          remote: "bob",
+          remote_url: "../bob",
+          branch: "sunglasses"
+        )
       }
 
       before { setup_example_repos }
@@ -21,7 +31,7 @@ module SetupExampleRepos
       before do
         described_class.run(
           working_directory: working_directory,
-          change_sets: [alice_cowboy_hat, bob_sunglasses]
+          pull_requests: [alice_cowboy_hat, bob_sunglasses]
         )
       end
     end
@@ -37,10 +47,7 @@ module SetupExampleRepos
 
     alice.add_remote("upstream")
     bob.add_remote("upstream")
-
     mallory.add_remote("upstream")
-    mallory.add_remote("alice")
-    mallory.add_remote("bob")
 
     # First commit
     upstream.add_item("earrrings")

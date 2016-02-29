@@ -25,7 +25,7 @@ describe OctoMerge::Execute do
 
     it { is_expected.to be_a(strategy) }
     its(:working_directory) { is_expected.to eq("foo/bar") }
-    its(:change_sets) { is_expected.to eq([pull_request, another_pull_request]) }
+    its(:pull_requests) { is_expected.to eq([pull_request, another_pull_request]) }
   end
 
   describe "#run" do

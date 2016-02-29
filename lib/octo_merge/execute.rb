@@ -14,7 +14,7 @@ module OctoMerge
     def env
       @env ||= strategy.new(
         working_directory: context.working_directory,
-        change_sets: context.pull_requests
+        pull_requests: context.pull_requests
       )
     end
   end

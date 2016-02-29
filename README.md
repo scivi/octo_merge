@@ -1,8 +1,6 @@
 # OctoMerge
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/octo_merge`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+`octo_merge` is a simple command line tool to merge GitHub pull requests using different strategies.
 
 ## Installation
 
@@ -20,9 +18,52 @@ Or install it yourself as:
 
     $ gem install octo_merge
 
-## Usage
+## Examples
 
-TODO: Write usage instructions here
+```
+octo-merge \
+  --repo=rails/rails \
+  --dir=~/Dev/Rails/rails \
+  --pull_requests=23,42 \
+  --login=Deradon \
+  --password=<your-github-API-token> \
+  --strategy=MergeWithRebase
+```
+
+* You can find you API token [here](https://github.com/settings/tokens)
+
+## Avilable strategies
+
+### MergeWithoutRebase
+
+```ruby
+git.checkout(master)
+git.fetch(upstream)
+git.reset_hard("#{upstream}/#{master}")
+
+pull_requests.each do |pull_request|
+  git.remote_add("#{pull_request.remote} #{pull_request.remote_url}")
+  git.fetch(pull_request.remote)
+  git.merge_no_ff("#{pull_request.remote}/#{pull_request.branch}")
+end
+```
+
+### MergeWithRebase
+
+```ruby
+git.checkout(master)
+git.fetch(upstream)
+git.reset_hard("#{upstream}/#{master}")
+
+pull_requests.each do |pull_request|
+  git.remote_add("#{pull_request.remote} #{pull_request.remote_url}")
+  git.fetch(pull_request.remote)
+  git.checkout(pull_request.branch)
+  git.rebase(master)
+  git.checkout(master)
+  git.merge_no_ff(pull_request.branch)
+end
+```
 
 ## Development
 

@@ -34,4 +34,30 @@ describe OctoMerge do
       expect(execute).to receive(:run)
     end
   end
+
+  describe ".configuration" do
+    subject { described_class.configuration }
+    it { is_expected.to be_a(OctoMerge::Configuration) }
+  end
+
+  describe ".configure" do
+    subject { described_class.configuration }
+
+    around do |example|
+      described_class.configure do |config|
+        config.login = "foo"
+        config.password = "secret"
+      end
+
+      example.run
+
+      described_class.configure do |config|
+        config.login = nil
+        config.password = nil
+      end
+    end
+
+    its(:login) { is_expected.to eq("foo") }
+    its(:password) { is_expected.to eq("secret") }
+  end
 end

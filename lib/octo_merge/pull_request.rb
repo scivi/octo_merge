@@ -31,9 +31,15 @@ module OctoMerge
       @github_api_result ||= github_client.pull_request(repo, number)
     end
 
-    # TODO: Provide authentication credentials
     def github_client
-      @github_client ||= Octokit::Client.new
+      @github_client ||= Octokit::Client.new(
+        login: config.login,
+        password: config.password
+      )
+    end
+
+    def config
+      OctoMerge.configuration
     end
   end
 end

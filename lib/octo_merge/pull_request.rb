@@ -21,6 +21,10 @@ module OctoMerge
       github_api_result.head.ref
     end
 
+    def ==(other_pull_request)
+      repo == other_pull_request.repo && number == other_pull_request.number
+    end
+
     private
 
     def github_api_result

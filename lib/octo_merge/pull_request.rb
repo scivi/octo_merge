@@ -14,7 +14,7 @@ module OctoMerge
     end
 
     def remote_url
-      github_api_result.head.repo.git_url
+      github_api_result.head.repo.ssh_url
     end
 
     def branch

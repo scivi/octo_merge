@@ -8,7 +8,7 @@ describe OctoMerge::PullRequest do
   }
 
   its(:remote) { is_expected.to eq("jackdempsey") }
-  its(:remote_url) { is_expected.to eq("git://github.com/jackdempsey/rails.git") }
+  its(:remote_url) { is_expected.to eq("git@github.com:jackdempsey/rails.git") }
   its(:branch) { is_expected.to eq("fix_requires") }
   its(:number) { is_expected.to eq("23") }
 

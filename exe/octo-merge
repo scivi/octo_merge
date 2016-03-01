@@ -1,9 +1,19 @@
 #!/usr/bin/env ruby
 
-require 'optparse'
+require "optparse"
 require "octo_merge"
+require "yaml"
 
-options = {}
+options = if File.exist?(".octo-merge.yml")
+  body = File.read(".octo-merge.yml")
+  YAML.load(body)
+else
+  {}
+end
+
+# Symbolize keys
+options = options.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
+
 OptionParser.new do |opts|
   opts.banner = "Usage: octo-merge [options]"
 
@@ -12,11 +22,11 @@ OptionParser.new do |opts|
   end
 
   opts.on("--dir=DIR", "Working directory (e.g.: '~/Dev/Rails/rails')") do |dir|
-    options[:working_directory] = File.expand_path(dir)
+    options[:dir] = dir
   end
 
   opts.on("--pull_requests=PULL_REQUESTS", "Pull requests (e.g.: '23,42,66')") do |pull_requests|
-    options[:pull_requests] = pull_requests.split(",")
+    options[:pull_requests] = pull_requests
   end
 
   opts.on("--login=login", "Login (Your GitHub username)") do |login|
@@ -28,7 +38,7 @@ OptionParser.new do |opts|
   end
 
   opts.on("--strategy=STRATEGY", "Merge strategy (e.g.: 'MergeWithoutRebase')") do |strategy|
-    options[:strategy] = Object.const_get("OctoMerge::#{strategy}")
+    options[:strategy] = strategy
   end
 
   opts.on('-h', '--help', 'Display this screen') do
@@ -36,6 +46,10 @@ OptionParser.new do |opts|
     exit
   end
 end.parse!
+
+options[:dir] = File.expand_path(options[:dir])
+options[:pull_requests] = options[:pull_requests].split(",")
+options[:strategy] = Object.const_get("OctoMerge::#{options[:strategy]}")
 
 OctoMerge.configure do |config|
   config.login = options[:login]
@@ -45,6 +59,6 @@ end
 OctoMerge.run(
   repo: options[:repo],
   pull_request_numbers: options[:pull_requests],
-  working_directory: options[:working_directory],
+  working_directory: options[:dir],
   strategy: options[:strategy]
 )

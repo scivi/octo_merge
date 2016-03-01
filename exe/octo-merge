@@ -45,6 +45,11 @@ OptionParser.new do |opts|
     puts opts
     exit
   end
+
+  opts.on('-v', '--version', 'Display the version') do
+    puts OctoMerge::VERSION
+    exit
+  end
 end.parse!
 
 options[:dir] = File.expand_path(options[:dir])

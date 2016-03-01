@@ -4,6 +4,8 @@ require "octo_merge/configuration"
 require "octo_merge/context"
 require "octo_merge/execute"
 require "octo_merge/git"
+require "octo_merge/interactive_pull_requests"
+require "octo_merge/list_pull_requests"
 require "octo_merge/pull_request"
 
 require "octo_merge/abstract_merge"
@@ -23,11 +25,19 @@ module OctoMerge
     end
 
     def configure
+      @github_client = nil
       yield(configuration)
     end
 
     def configuration
       @configuration ||= Configuration.new
+    end
+
+    def github_client
+      @github_client ||= Octokit::Client.new(
+        login: configuration.login,
+        password: configuration.password
+      )
     end
   end
 end

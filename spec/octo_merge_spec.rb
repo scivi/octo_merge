@@ -60,4 +60,30 @@ describe OctoMerge do
     its(:login) { is_expected.to eq("foo") }
     its(:password) { is_expected.to eq("secret") }
   end
+
+  describe ".github_client" do
+    context "when configured with login credentials" do
+      around do |example|
+        OctoMerge.configure do |config|
+          config.login = "foo"
+          config.password = "secret"
+        end
+
+        example.run
+
+        OctoMerge.configure do |config|
+          config.login = nil
+          config.password = nil
+        end
+      end
+
+      specify {
+        expect(Octokit::Client).to receive(:new).with(
+          login: "foo",
+          password: "secret"
+        )
+        subject.github_client
+      }
+    end
+  end
 end

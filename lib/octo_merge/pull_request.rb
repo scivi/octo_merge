@@ -32,14 +32,7 @@ module OctoMerge
     end
 
     def github_client
-      @github_client ||= Octokit::Client.new(
-        login: config.login,
-        password: config.password
-      )
-    end
-
-    def config
-      OctoMerge.configuration
+      OctoMerge.github_client
     end
   end
 end

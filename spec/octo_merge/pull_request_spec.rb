@@ -19,28 +19,4 @@ describe OctoMerge::PullRequest do
 
     specify { expect(pull_request).to eq(another_pull_request) }
   end
-
-  context "when configured with login credentials" do
-    around do |example|
-      OctoMerge.configure do |config|
-        config.login = "foo"
-        config.password = "secret"
-      end
-
-      example.run
-
-      OctoMerge.configure do |config|
-        config.login = nil
-        config.password = nil
-      end
-    end
-
-    specify {
-      expect(Octokit::Client).to receive(:new).with(
-        login: "foo",
-        password: "secret"
-      )
-      subject.send(:github_client)
-    }
-  end
 end

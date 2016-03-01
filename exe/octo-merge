@@ -41,6 +41,14 @@ OptionParser.new do |opts|
     options[:strategy] = strategy
   end
 
+  opts.on("--query=QUERY", "Query to use in interactive mode (e.g.: 'label:ready-to-merge')") do |query|
+    options[:query] = query
+  end
+
+  opts.on('--interactive', 'Select PullRequests within an interactive session') do |interactive|
+    options[:interactive] = interactive
+  end
+
   opts.on('-h', '--help', 'Display this screen') do
     puts opts
     exit
@@ -52,14 +60,16 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-options[:dir] = File.expand_path(options[:dir])
-options[:pull_requests] = options[:pull_requests].split(",")
-options[:strategy] = Object.const_get("OctoMerge::#{options[:strategy]}")
-
 OctoMerge.configure do |config|
   config.login = options[:login]
   config.password = options[:password]
 end
+
+options[:dir] = File.expand_path(options[:dir])
+options[:strategy] = Object.const_get("OctoMerge::#{options[:strategy]}")
+
+options[:pull_requests] = OctoMerge::InteractivePullRequests.get(options) if options[:interactive]
+options[:pull_requests] = options[:pull_requests].to_s.split(",")
 
 OctoMerge.run(
   repo: options[:repo],

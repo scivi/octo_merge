@@ -9,6 +9,10 @@ module OctoMerge
       @number = number.to_s
     end
 
+    def url
+      github_api_result.html_url
+    end
+
     def remote
       github_api_result.user.login
     end
@@ -19,6 +23,14 @@ module OctoMerge
 
     def branch
       github_api_result.head.ref
+    end
+
+    def title
+      github_api_result.title
+    end
+
+    def body
+      github_api_result.body
     end
 
     def ==(other_pull_request)

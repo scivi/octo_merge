@@ -17,6 +17,7 @@ class Git
   end
 
   git :checkout
+  git :commit
   git :fetch
   git :merge_no_ff, "merge --no-ff"
   git :rebase

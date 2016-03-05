@@ -4,11 +4,18 @@ require "optparse"
 require "octo_merge"
 require "yaml"
 
-options = if File.exist?(".octo-merge.yml")
+options = {}
+
+user_config_path = File.expand_path("~/.octo-merge.yml")
+
+if File.exist?(user_config_path)
+  body = File.read(user_config_path)
+  options.merge!(YAML.load(body))
+end
+
+if File.exist?(".octo-merge.yml")
   body = File.read(".octo-merge.yml")
-  YAML.load(body)
-else
-  {}
+  options.merge!(YAML.load(body))
 end
 
 # Symbolize keys

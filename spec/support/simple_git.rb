@@ -70,6 +70,10 @@ class SimpleGit
     git("log --graph --pretty=format:'%s'").split("\n").map(&:strip).join("\n")
   end
 
+  def show(args = nil)
+    git "show #{args}"
+  end
+
   # private
 
   def git(cmd)

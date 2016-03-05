@@ -14,7 +14,10 @@ module SetupExampleRepos
           OctoMerge::PullRequest,
           remote: "alice",
           remote_url: "../alice",
-          branch: "cowboy_hat"
+          branch: "cowboy_hat",
+          url: "example.com/23",
+          title: "Adds cowboy hat",
+          body: ""
         )
       }
       let(:bob_sunglasses) {
@@ -22,7 +25,10 @@ module SetupExampleRepos
           OctoMerge::PullRequest,
           remote: "bob",
           remote_url: "../bob",
-          branch: "sunglasses"
+          branch: "sunglasses",
+          url: "example.com/42",
+          title: "Adds sunglasses",
+          body: "## Lorem ipsum\n\ndolor sit amet!"
         )
       }
 

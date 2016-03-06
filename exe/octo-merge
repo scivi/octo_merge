@@ -4,7 +4,10 @@ require "optparse"
 require "octo_merge"
 require "yaml"
 
-options = {}
+options = {
+  dir: ".",
+  strategy: "MergeWithoutRebase"
+}
 
 user_config_path = File.expand_path("~/.octo-merge.yml")
 
@@ -73,6 +76,7 @@ OctoMerge.configure do |config|
 end
 
 options[:dir] = File.expand_path(options[:dir])
+
 options[:strategy] = Object.const_get("OctoMerge::#{options[:strategy]}")
 
 options[:pull_requests] = OctoMerge::InteractivePullRequests.get(options) if options[:interactive]

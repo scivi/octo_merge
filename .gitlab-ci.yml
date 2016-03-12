@@ -1,0 +1,20 @@
+rspec_ruby_2.1:
+  script:
+    - rvm use 2.1
+    - gem install bundler --no-ri --no-rdoc
+    - bundle install --jobs $(nproc)  "${FLAGS[@]}"
+    - bundle exec rspec
+
+rspec_ruby_2.2:
+  script:
+    - rvm use 2.2
+    - gem install bundler --no-ri --no-rdoc
+    - bundle install --jobs $(nproc)  "${FLAGS[@]}"
+    - bundle exec rspec
+
+rspec_ruby_2.3:
+  script:
+    - rvm use 2.3
+    - gem install bundler --no-ri --no-rdoc
+    - bundle install --jobs $(nproc)  "${FLAGS[@]}"
+    - bundle exec rspec

@@ -74,6 +74,23 @@ pull_requests.each do |pull_request|
 end
 ```
 
+### Rebase
+
+```ruby
+git.checkout(master)
+git.fetch(upstream)
+git.reset_hard("#{upstream}/#{master}")
+
+pull_requests.each do |pull_request|
+  git.remote_add("#{pull_request.remote} #{pull_request.remote_url}")
+  git.fetch(pull_request.remote)
+  git.checkout(pull_request.branch)
+  git.rebase(master)
+  git.checkout(master)
+  git.rebase("#{pull_request.branch}")
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe OctoMerge::MergeWithRebaseAndMessage do
+describe OctoMerge::Strategy::MergeWithRebaseAndMessage do
   include SetupExampleRepos
 
   let(:expected_history) do

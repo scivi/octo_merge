@@ -77,7 +77,7 @@ end
 
 options[:dir] = File.expand_path(options[:dir])
 
-options[:strategy] = Object.const_get("OctoMerge::#{options[:strategy]}")
+options[:strategy] = Object.const_get("OctoMerge::Strategy::#{options[:strategy]}")
 
 options[:pull_requests] = OctoMerge::InteractivePullRequests.get(options) if options[:interactive]
 options[:pull_requests] = options[:pull_requests].to_s.split(",")

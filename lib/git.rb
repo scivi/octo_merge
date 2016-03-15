@@ -24,7 +24,6 @@ class Git
   git :remote_add, "remote add"
   git :reset_hard, "reset --hard"
 
-
   private
 
   def git(cmd)

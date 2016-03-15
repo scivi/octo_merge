@@ -7,12 +7,7 @@ require "octo_merge/git"
 require "octo_merge/interactive_pull_requests"
 require "octo_merge/list_pull_requests"
 require "octo_merge/pull_request"
-
-require "octo_merge/abstract_merge"
-require "octo_merge/rebase"
-require "octo_merge/merge_with_rebase"
-require "octo_merge/merge_with_rebase_and_message"
-require "octo_merge/merge_without_rebase"
+require "octo_merge/strategy"
 
 module OctoMerge
   class << self

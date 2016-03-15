@@ -1,18 +1,12 @@
 require 'spec_helper'
 
-describe OctoMerge::MergeWithRebase do
+describe OctoMerge::Strategy::Rebase do
   include SetupExampleRepos
 
   let(:expected_history) do
 <<-'EXPECTED_HISTORY'.strip
-*   Merge branch 'sunglasses'
-|\
-| * Adds sunglasses
-|/
-*   Merge branch 'cowboy_hat'
-|\
-| * Adds cowboy_hat
-|/
+* Adds sunglasses
+* Adds cowboy_hat
 * Adds piercing
 * Adds tattoo
 * Adds earrrings

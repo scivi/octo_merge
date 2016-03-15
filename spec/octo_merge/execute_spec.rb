@@ -12,7 +12,7 @@ describe OctoMerge::Execute do
       pull_requests: [pull_request, another_pull_request]
     )
   }
-  let(:strategy) { OctoMerge::MergeWithoutRebase }
+  let(:strategy) { OctoMerge::Strategy::MergeWithoutRebase }
 
   let(:pull_request) { instance_double(OctoMerge::PullRequest) }
   let(:another_pull_request) { instance_double(OctoMerge::PullRequest) }

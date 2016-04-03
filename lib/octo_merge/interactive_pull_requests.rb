@@ -1,7 +1,6 @@
 require 'inquirer'
 
 module OctoMerge
-  # TODO: Write specs
   class InteractivePullRequests
     def initialize(repo:, query:)
       @repo = repo
@@ -9,37 +8,32 @@ module OctoMerge
     end
 
     def self.get(options = {})
-      new(repo: options[:repo], query: options[:query]).pull_requests
+      new(repo: options[:repo], query: options[:query]).to_s
     end
 
-    def pull_requests
-      prs = list.all
-
-      formatted_prs = prs.map do |pull_request|
-        format_pull_request(pull_request)
-      end
-
+    def to_s
       system("clear")
-      idx = Ask.checkbox "Select the pull requests you want to merge", formatted_prs
 
-      idx.zip(prs).select { |e| e[0] }.map { |e| e[1][:number] }.join(",")
+      idx = Ask.checkbox(
+        "Select the pull requests you want to merge",
+        formatted_pull_requests
+      )
+
+      idx.zip(pull_requests).select { |e| e[0] }.map { |e| e[1].number }.join(",")
     end
 
     private
 
     attr_reader :repo, :query
 
-    def display_pull_requests
-      puts "[INFO] Fetching PullRequests. Please wait ...\n\n"
-
-      list.all.each do |pull_request|
-        puts format_pull_request(pull_request)
+    def formatted_pull_requests
+      pull_requests.map do |pull_request|
+        format_pull_request(pull_request)
       end
     end
 
-    def display_input_message
-      puts "\n\nPlease enter the pull requests you want to merge: (e.g.: '23,42,66'):\n\n"
-      print "$: "
+    def pull_requests
+      list.all
     end
 
     def format_pull_request(pull_request)
@@ -51,4 +45,3 @@ module OctoMerge
     end
   end
 end
-

@@ -2,11 +2,13 @@ require "octo_merge/version"
 
 require "git"
 
+require "octo_merge/cli"
 require "octo_merge/configuration"
 require "octo_merge/context"
 require "octo_merge/execute"
 require "octo_merge/interactive_pull_requests"
 require "octo_merge/list_pull_requests"
+require "octo_merge/options"
 require "octo_merge/pull_request"
 require "octo_merge/strategy"
 
